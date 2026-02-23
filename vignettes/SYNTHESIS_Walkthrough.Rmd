@@ -1,0 +1,75 @@
+---
+title: "Getting Started with SYNTHESIS"
+author: "Mahmood Ul Hassan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with SYNTHESIS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+**SYNTHESIS** is a robust evidence verification system designed to protect clinical guidelines from "fragile" meta-analyses. It uses a 7-layer bias correction model backed by a "Triple-Guard" ensemble.
+
+## Step 1: Loading Data
+
+The core function `synthesis_audit()` expects two vectors:
+- `yi`: The effect sizes (e.g., Log Odds Ratios)
+- `vi`: The sampling variances (SE^2)
+
+```{r setup}
+library(SYNTHESIS)
+
+# Create a "Fragile" dataset (Small k + Outlier)
+set.seed(99)
+k <- 8
+yi <- rnorm(k, 0.3, 0.1)
+vi <- runif(k, 0.01, 0.05)
+yi[8] <- 2.5 # The Outlier
+vi[8] <- 0.001 # High Precision
+```
+
+## Step 2: Running the Audit
+
+The audit runs the 7-layer model and cross-checks it against the Triple-Guard.
+
+```{r audit}
+audit <- synthesis_audit(yi, vi)
+print(audit)
+```
+
+**Interpretation:**
+- **Status RED:** The system detected high divergence.
+- **Fail-Safe Active:** The final estimate defaulted to the robust Anchor.
+
+## Step 3: Visualizing the Problem
+
+Use the master diagnostic plot to see *why* the audit failed.
+
+```{r plot, fig.width=7, fig.height=5}
+plot(audit$core, audit = audit)
+```
+
+- **Top Left:** Shows the "Forest of Methods". Note the red dot (Final Decision).
+- **Top Right:** Shows the Density Landscape. The outlier is far from the consensus peak.
+
+## Step 4: Generating a Report
+
+To share these findings, generate a standalone report.
+
+```{r report, eval=FALSE}
+synthesis_report(audit, file = "My_Audit.md")
+```
+
+## Conclusion
+
+SYNTHESIS doesn't just pool numbers; it *interrogates* them. Use it to ensure your clinical recommendations are built on solid ground.

@@ -1,0 +1,10 @@
+citHeader("To cite package 'SYNTHESIS' in publications use:")
+
+citEntry(entry = "Manual",
+  title = "SYNTHESIS: Structured Yield-Neutral Trust-weighted Heterogeneity-Integrated Statistical Inference System",
+  author = person("Mahmood Ul", "Hassan"),
+  year = "2026",
+  note = "R package version 0.1.0",
+  url = "https://github.com/mahmood-ul-hassan/SYNTHESIS",
+  textVersion = "Hassan, M.U. (2026). SYNTHESIS: Structured Yield-Neutral Trust-weighted Heterogeneity-Integrated Statistical Inference System. R package version 0.1.0."
+)

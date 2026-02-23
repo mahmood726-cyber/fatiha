@@ -1,0 +1,23 @@
+Package: SYNTHESIS
+Type: Package
+Title: Structured Yield-Neutral Trust-weighted Heterogeneity-Integrated Statistical Inference System
+Version: 0.1.0
+Authors@R: person("Mahmood Ul", "Hassan", email = "mahmood.hassan@example.com", role = c("aut", "cre"))
+Description: Implements the SYNTHESIS model, a 7-layer meta-analysis methodology for robust evidence synthesis.
+    It replaces standard inverse-variance weighting with a multi-layered process of spatial density mapping,
+    precision weighting, and quality integration to address systematic bias and noise.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    stats,
+    graphics,
+    grDevices
+Suggests:
+    metafor,
+    testthat (>= 3.0.0),
+    shiny,
+    bslib,
+    jsonlite
+Config/testthat/edition: 3
+RoxygenNote: 7.3.3

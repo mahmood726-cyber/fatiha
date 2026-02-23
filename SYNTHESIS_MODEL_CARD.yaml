@@ -1,0 +1,39 @@
+name: SYNTHESIS
+version: 0.1.0
+date: 2026-02-16
+author: Mahmood Ul Hassan
+license: MIT
+description: >
+  A 7-layer meta-analysis framework for robust evidence synthesis.
+  Combines density weighting, precision weighting, and bias correction
+  with a Triple-Guard ensemble verification system.
+
+model_architecture:
+  layers:
+    1: Data Harmonization (Variance Floor)
+    2: Spatial Density Weighting (Distributional Alignment)
+    3: Statistical Precision Weighting
+    4: Quality Integration (User Trust)
+    5: Consensus Anchor (Weighted Centroid)
+    6: Adaptive Bias Correction (Straight Path Trajectory)
+    7: Heterogeneity Filtering
+
+safety_systems:
+  - Reliability Shield (LOOCV Optimism Correction)
+  - Triple-Guard Ensemble (GRMA, WRD, SWA)
+  - Divergence Monitor (Consensus vs Anchor)
+  - Fail-Safe Fallback (Auto-switch to Robust Anchor on High Risk)
+  - Adversarial Defense (Quality-Effect Correlation Check)
+
+intended_use:
+  - Clinical Evidence Synthesis
+  - HTA Decision Support
+  - Automated Meta-Meta-Analysis
+
+limitations:
+  - Requires k >= 3 studies
+  - Bias correction assumes linear small-study effects
+  - Quality scores rely on user input (subject to bias)
+
+citation: >
+  SYNTHESIS Project (2026). Structured Yield-Neutral Trust-weighted Heterogeneity-Integrated Statistical Inference System.
