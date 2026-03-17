@@ -1,0 +1,47 @@
+# R
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*-Ex.R
+/*.tar.gz
+/*.Rcheck/
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+.Renviron
+docs/
+po/*~
+renv/library/
+renv/staging/
+renv/python/
+renv/sandbox/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project
+.serena/
+.claude/

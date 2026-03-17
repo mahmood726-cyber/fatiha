@@ -1,5 +1,9 @@
 # SYNTHESIS: The Evidence Verification System
 
+## Installation
+Use the dependency files in this directory (for example `requirements.txt`, `environment.yml`, `DESCRIPTION`, or equivalent project-specific files) to create a clean local environment before running analyses.
+Document any package-version mismatch encountered during first run.
+
 **Version:** 0.1.0  
 **License:** MIT  
 **Build Status:** [![R-CMD-check](https://github.com/nhs-evidence/SYNTHESIS/actions/workflows/check.yaml/badge.svg)](https://github.com/nhs-evidence/SYNTHESIS/actions/workflows/check.yaml)
