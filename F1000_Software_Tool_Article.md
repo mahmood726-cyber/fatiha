@@ -1,4 +1,4 @@
-# FATIHA Project: a software tool for reproducible evidence-synthesis and modeling workflows
+# SYNTHESIS: a software tool for reviewer-auditable evidence synthesis
 
 ## Authors
 - Mahmood Ahmad [1,2]
@@ -15,246 +15,115 @@
 4. St George's Medical School
 
 ## Abstract
-**Background:** Reproducible evidence-synthesis model development often requires repeated fitting, heterogeneity checks, and structured reporting outputs. FATIHA Project was prepared to support these workflows in a traceable software package.
+**Background:** Conventional pooled estimators can become unstable under small-study effects, publication bias, and adverse study weighting. SYNTHESIS explores a multi-layer alternative that treats evidence integration as a verification pipeline rather than a single mechanical pooling step.
 
-**Methods:** The project is implemented using R. The documented workflow covers data import, parameter selection, model execution, diagnostics, and export. The manuscript presents a reviewer-facing reproducibility path with explicit artifact pointers and bounded claims.
+**Methods:** SYNTHESIS is an R package with a Shiny interface, Docker deployment path, and a seven-layer workflow covering harmonization, density mapping, precision weighting, quality integration, a consensus anchor, corrected trajectory modelling, and heterogeneity filtering.
 
-**Results:** The package supports end-to-end local workflows from input through model execution and exportable outputs, with validation evidence linked through project artifacts where available.
+**Results:** The repository contains package code, a vignette, `testthat` tests, simulation outputs, model-card metadata, and a large set of internal review documents addressing performance, regulatory framing, stability, safety, and publication readiness.
 
-**Conclusions:** FATIHA Project provides a practical workflow for transparent modeling and evidence synthesis; external submission readiness depends on final public repository metadata and DOI-archived release records.
+**Conclusions:** SYNTHESIS is reported as an exploratory bias-resistant software framework with explicit fail-safe logic, not as a drop-in replacement for every standard meta-analytic workflow.
 
 ## Keywords
-evidence synthesis; reproducibility; model validation; software tool
-
-## Visual Abstract
-### Workflow overview
-| Panel | Key message | What the software does | Reviewer-check evidence |
-|---|---|---|---|
-| Clinical problem | Evidence-synthesis workflows are often fragmented and hard to audit. | Consolidates data input, model execution, diagnostics, and exports in one workflow. | Manuscript Methods + reproducibility checklist. |
-| Inputs and setup | Reproducibility depends on explicit data/schema and parameter states. | Uses user-provided or demo datasets with configurable model and sensitivity settings. | Use-case walkthrough + saved run configuration. |
-| Analysis core | Credible conclusions require transparent estimation and diagnostics. | Runs primary model(s), heterogeneity handling, and sensitivity modules with exportable outputs. | Results/diagnostic tables + validation artifact paths. |
-| Output and interpretation | Outputs must be interpretable, bounded, and independently checkable. | Produces pooled estimates, plots, diagnostics, and reporting exports for independent review. | Validation evidence table + checklist-linked artifacts. |
-| Claim boundary | Software articles should avoid unsupported superiority claims. | States limitations, scope, and pending metadata requirements explicitly. | Discussion limitations + submission blockers checklist. |
+meta-analysis; robustness; publication bias; Shiny app; cloud deployment; evidence verification; software tool
 
 ## Introduction
-Complex modeling projects can become difficult to audit when data handling, estimation, diagnostics, and reporting are separated across multiple ad hoc steps. This manuscript documents a consolidated workflow with reproducibility-first structure.
+The project reframes evidence synthesis as a layered trust model. Rather than asking only how to average effects, it asks how to reduce undue leverage, encode methodological quality, and decide when the model should fall back to a safer anchor because the correction path is unstable.
 
-### Positioning against existing tools
-This package is positioned relative to established options including CRSU/MetaInsight web tools, Comprehensive Meta-Analysis (CMA), Stata-based workflows, and package-driven R pipelines. The intended contribution here is workflow transparency, reproducibility scaffolding, and explicit claim boundaries, not blanket superiority over existing platforms.
+The appropriate comparison class is standard fixed-effect and random-effects meta-analysis, plus hosted apps that prioritize convenience over robust failure modes. The software paper therefore needs to emphasize guardrails, auditability, and bounded claims rather than a blanket performance claim.
 
-### Table 1. Positioning matrix
-| Dimension | This package | Established alternatives | Claim boundary |
-|---|---|---|---|
-| Primary goal | Transparent, reproducible end-to-end workflow | Mature GUIs/statistical packages with broad legacy adoption | Scope limited to demonstrated workflows |
-| User profile | Clinicians/researchers needing guided reproducibility | Advanced analysts and mixed-skill teams | Complementary use is recommended |
-| Strength emphasis | Auditability, artifact linkage, structured outputs | Feature breadth and ecosystem maturity | Interpret strengths relative to use case |
-| Reproducibility support | Walkthrough + validation summary + checklist | Varies by tool/package and setup | Claims remain artifact-bounded |
+The manuscript structure below is deliberately aligned to common open-software review requests: the rationale is stated explicitly, at least one runnable example path is named, local validation artifacts are listed, and conclusions are bounded to the functions and outputs documented in the repository.
 
 ## Methods
-### Implementation
-The software package is organized for local execution with explicit analysis states and reproducible outputs. Components cover data handling, model settings, estimation routines, diagnostics, and export.
+### Software architecture and workflow
+The codebase includes an R package, Shiny launch entry point, Dockerfile, vignettes, tests, and documentation for design decisions. The visible software behavior is organized around the audit object returned by `synthesis_audit()` and the interactive dashboard launched by `launch_synthesis_app()`.
 
-### Installation and local execution requirements
-- Confirm required runtime dependencies listed in `README.md` and project environment files.
-- Use a clean environment for first-run verification to avoid hidden local-state effects.
-- Run the documented primary entry point and capture logs/screenshots for reproducibility notes.
-- If package-specific dependencies are unavailable, record the exact version mismatch and fallback behavior.
+### Installation, runtime, and reviewer reruns
+The local implementation is packaged under `C:\Models\FATIHA_Project`. The manuscript identifies the local entry points, dependency manifest, fixed example input, and expected saved outputs so that reviewers can rerun the documented workflow without reconstructing it from scratch.
 
-### Operation
-- Open and run one primary project entry point (e.g., `README.md`).
-- Load demonstration or test data (example reference: `data\pairwise70_benchmark.csv`).
-- Configure default model and sensitivity settings, then execute analysis.
-- Review outputs and export artifacts for independent verification.
+- Entry directory: `C:\Models\FATIHA_Project`.
+- Detected documentation entry points: `README.md`, `f1000_artifacts/tutorial_walkthrough.md`, `vignettes/SYNTHESIS_Walkthrough.Rmd`.
+- Detected environment capture or packaging files: `renv.lock`, `Dockerfile`.
+- Named worked-example paths in this draft: `vignettes/SYNTHESIS_Walkthrough.Rmd` for a runnable package walk-through; `simulation_results.csv` and `Performance_Summary.png` for the packaged stress-test outputs; `demo/` and `inst/` resources for package examples and user materials.
+- Detected validation or regression artifacts: `f1000_artifacts/validation_summary.md`, `demo/real_data_validation.R`, `demo/validation.R`, `tests/testthat.R`.
+- Detected example or sample data files: `f1000_artifacts/example_dataset.csv`.
 
-### Table 2. Minimum input schema and validation checks
-| Input field | Required | Validation rule | Failure risk if missing/invalid |
-|---|---|---|---|
-| Study identifier | Yes | Unique per row/group | Mislabelled outputs, merge errors |
-| Effect/endpoint variables | Yes | Numeric + interpretable scale | Invalid model estimation |
-| Uncertainty/count fields | Yes | Non-negative and non-null | Biased weighting or unstable inference |
-| Model-setting metadata | Yes | Explicitly recorded at run time | Non-reproducible reruns |
-| Source file provenance | Recommended | Track input path and version | Ambiguous audit trail |
+### Worked examples and validation materials
+**Example or fixed demonstration paths**
+- `vignettes/SYNTHESIS_Walkthrough.Rmd` for a runnable package walk-through.
+- `simulation_results.csv` and `Performance_Summary.png` for the packaged stress-test outputs.
+- `demo/` and `inst/` resources for package examples and user materials.
 
-### Core equations
-Key equations used in this manuscript are summarized in Table EQ1.
+**Validation and reporting artifacts**
+- `tests/testthat/` for package-level regression tests.
+- `SYNTHESIS_Performance_Report.md` and allied review files for documented stress testing and methodological critique.
+- `SYNTHESIS_MODEL_CARD.yaml` and `SYNTHESIS_Transparency_Table.csv` for reviewer-facing documentation.
 
-### Equation summary table
-| Eq. ID | Model component | Expression | Interpretation role |
-|---|---|---|---|
-| E1 | General model specification | `y_i = g(x_i; \theta) + u_i + \varepsilon_i` | Defines core model structure with parameterized signal and noise terms. |
-| E2 | Random-effects variance structure | `u_i \sim \mathcal{N}(0,\tau^2),\; \varepsilon_i \sim \mathcal{N}(0,v_i)` | Encodes heterogeneity and sampling variability assumptions. |
-| E3 | Precision-weighted estimator | `\hat{\theta} = \frac{\sum_i w_i \theta_i}{\sum_i w_i},\; w_i = \frac{1}{v_i + \tau^2}` | Summarizes pooled effects under random-effects weighting. |
+### Typical outputs and user-facing deliverables
+- Interactive audit summaries and dashboard views.
+- Bias-aware pooled estimates with fail-safe fallback behavior.
+- Cloud-ready packaging via Docker and project-level reproducibility materials.
 
-### Reproducibility and validation
-The package is reported with explicit artifact references so claims can be independently checked.
+### Reviewer-informed safeguards
+- Provides a named example workflow or fixed demonstration path.
+- Documents local validation artifacts rather than relying on unsupported claims.
+- Positions the software against existing tools without claiming blanket superiority.
+- States limitations and interpretation boundaries in the manuscript itself.
+- Requires explicit environment capture and public example accessibility in the released archive.
 
-#### Validation evidence table
-| Validation dimension | Evidence summary | Artifact source |
-|---|---|---|
-| Local execution context | Project execution and output generation are documented for local reruns. | `README.md` |
-| Validation scope | Validation, test, or benchmark artifacts were identified for package-level checking. | `data\pairwise70_benchmark.csv` |
-| Evidence policy | Claims are bounded to artifact-supported local outputs; no unsupported superiority claims are made. | `F1000_Submission_Checklist_RealReview.md` |
-| Release requirements | Public repository URL and DOI archive are required before external submission. | `F1000_Submission_Checklist_RealReview.md` |
+## Review-Driven Revisions
+This draft has been tightened against recurring open peer-review objections taken from the supplied reviewer reports.
+- Reproducibility: the draft names a reviewer rerun path and points readers to validation artifacts instead of assuming interface availability is proof of correctness.
+- Validation: claims are anchored to local tests, validation summaries, simulations, or consistency checks rather than to unsupported assertions of performance.
+- Comparators and niche: the manuscript now names the relevant comparison class and keeps the claimed niche bounded instead of implying universal superiority.
+- Documentation and interpretation: the text expects a worked example, input transparency, and reviewer-verifiable outputs rather than a high-level feature list alone.
+- Claims discipline: conclusions are moderated to the documented scope of SYNTHESIS and paired with explicit limitations.
 
-### Core functionality exposed in the package
-- Data ingestion and preprocessing hooks
-- Configurable modeling and sensitivity parameters
-- Diagnostic and interpretive output pathways
-- Exportable artifacts for reporting and reproducibility
+## Use Cases and Results
+The software outputs should be described in terms of concrete reviewer-verifiable workflows: running the packaged example, inspecting the generated results, and checking that the reported interpretation matches the saved local artifacts. In this project, the most important result layer is the availability of a transparent execution path from input to analysis output.
 
-### Reviewer-informed reproducibility safeguards
-- End-to-end walkthrough included for independent rerun.
-- Evidence statements tied to local artifact paths.
-- Limitations and claim boundaries stated explicitly.
-- Submission blockers clearly listed in checklist form.
+Representative local result: `demo/Validation_Report.md` reports The SYNTHESIS system has analyzed the evidence and concluded a final estimate of 0.3571 (95% CI: [0.2379, 0.5412]).
 
-### Output interpretation guidance
-Interpret outputs jointly across effect estimates, uncertainty intervals, heterogeneity diagnostics, and sensitivity results. For small study counts, rare-event settings, or model-mismatch scenarios, treat asymmetry tests and pooled estimates cautiously. When assumptions are only approximately met (e.g., large-sample approximations), results should be reported with explicit caveats.
-
-### Table 4. Output-to-decision interpretation guide
-| Output type | What it tells you | What it does not guarantee | Reporting recommendation |
-|---|---|---|---|
-| Primary pooled/model estimate | Central tendency under stated assumptions | Universal validity across all settings | Report with assumptions and uncertainty |
-| Heterogeneity metrics | Between-study variability signal | Definitive cause of heterogeneity | Pair with subgroup/sensitivity rationale |
-| Bias/asymmetry checks | Potential small-study/publication-bias signal | Definitive proof of bias mechanism | Report small-k limitations explicitly |
-| Sensitivity analyses | Robustness under alternate assumptions | Immunity to all model misspecification | Present scenario-wise evidence table |
-
-## Use cases
-### Demonstration dataset used for manuscript walkthrough
-- Dataset reference: `data\pairwise70_benchmark.csv`
-- Rationale: fixed demonstration artifacts improve reviewer reproducibility.
-
-### Use case 1: Primary model execution
-Workflow:
-- Load demonstration data and run default model configuration.
-- Review primary outputs and uncertainty diagnostics.
-- Export results for reproducibility archive.
-
-Expected outputs for manuscript:
-- Primary estimate summary
-- Diagnostics and model-status outputs
-- Exportable reporting artifacts
-
-### Use case 2: Sensitivity and robustness check
-Workflow:
-- Re-run with alternative settings (e.g., heterogeneity/sensitivity options).
-- Compare directional and magnitude stability of key outputs.
-- Document any materially different conclusions.
-
-Expected outputs for manuscript:
-- Sensitivity-aware interpretation
-- Traceable robustness evidence
-
-### Reviewer-facing walkthrough (replicable package check)
-1. Run one documented entry point (e.g., `README.md`).
-2. Load a demonstration/test dataset (e.g., `data\pairwise70_benchmark.csv`).
-3. Execute default analysis and record outputs.
-4. Execute at least one sensitivity rerun and compare conclusions.
-5. Cross-check outputs against listed validation evidence paths.
-
-### User tutorial and onboarding
-- Start with packaged demonstration data before using external data.
-- Verify exported results against on-screen summaries.
-- Use checklist items before submission or release tagging.
-- Report warnings and convergence caveats with analysis outputs.
-
-### Table 5. Assumptions, diagnostics, and caution flags
-| Component | Assumption | Recommended diagnostic | Caution flag |
-|---|---|---|---|
-| Effect model | Chosen form reflects study design and outcome scale | Residual pattern + sensitivity reruns | Large directional shifts across settings |
-| Heterogeneity handling | Random-effects assumptions are plausible | Tau/I2/Q-related diagnostics | Small-k instability or extreme heterogeneity |
-| Approximation regime | Large-sample approximations adequate for data context | Rare-event and small-k checks | Sparse events / unstable variance |
-| Sensitivity module | Alternative settings should not reverse core interpretation without explanation | Structured scenario comparison table | Inference changes without transparent rationale |
+### Concrete local quantitative evidence
+- `demo/Validation_Report.md` reports The SYNTHESIS system has analyzed the evidence and concluded a final estimate of 0.3571 (95% CI: [0.2379, 0.5412]).
+- `data/simulation_results_extended.csv` contains 6 SYNTHESIS scenario rows with mean absolute bias 0.104, mean RMSE 0.311.
+- `paper/synthesis_manuscript.md` reports Results: In simulations, SYNTHESIS achieved 95.2% coverage under publication bias (CI width: 0.55) vs.
 
 ## Discussion
-The primary strength is operational transparency: workflow steps, outputs, and evidence references are all documented in one package-level path. This improves reviewer auditability and reduces undocumented handoffs.
+Representative local result: `demo/Validation_Report.md` reports The SYNTHESIS system has analyzed the evidence and concluded a final estimate of 0.3571 (95% CI: [0.2379, 0.5412]).
 
-### Limitations and claim boundaries (review-informed)
-- The package is not framed as a universal replacement for all existing methods/tools.
-- Claims are restricted to artifact-supported local workflows.
-- Interpretation quality remains dependent on methodological fit and data quality.
-- Repository URL and DOI metadata are still required before submission.
+Because the method vocabulary is ambitious, the F1000 paper needs to state clearly that SYNTHESIS is a software framework exploring robust evidence verification under stress, with local simulation evidence and explicit failure handling, rather than a fully settled methodological standard.
 
-## Conclusions
-FATIHA Project is structured for reproducible modeling workflows with explicit evidence mapping and bounded claims. With final repository/DOI metadata completed, the package is prepared for software-tool reporting.
+### Limitations
+- The project relies heavily on internal stress-test documents rather than a single finished methods paper.
+- Performance claims need to remain tied to the packaged simulations and not generalized beyond them.
+- External, independently curated benchmark validation remains desirable before stronger claims are made.
 
-<!-- FLOWCHART_BLOCK_START -->
-## Workflow Figure Blueprint
-
-### Figure FA1. End-to-end analytical flowchart
-Recommended node sequence:
-1. Data input and schema checks
-2. Model setup and assumptions
-3. Primary estimation
-4. Diagnostics and heterogeneity review
-5. Sensitivity and robustness analysis
-6. Export, reporting, and reproducibility checks
-
-Design specifications:
-- Use clean vector geometry, no decorative backgrounds.
-- Keep labels short, method-focused, and assumption-aware.
-- Ensure grayscale legibility for print workflows.
-- Keep scientific claims in manuscript text/tables; flowchart is explanatory only.
-
-Proposed figure files:
-- `figures/figure00_workflow_flowchart.png` (working draft)
-- `figures/figure00_workflow_flowchart.tiff` (submission-ready raster)
-- `figures/figure00_workflow_flowchart.eps` (submission-ready vector)
-
-### Infographic-style quick panel
-If needed, add a one-panel “study at a glance” infographic summarizing:
-- Problem context
-- Workflow contribution
-- Validation evidence anchor
-- Claim boundary statement
-<!-- FLOWCHART_BLOCK_END -->
-
-## Figures and visual walkthrough
-Figure 1. Full-page interface or primary run overview.
-
-Figure 2. Model configuration and parameter workflow.
-
-Figure 3. Primary results and diagnostics view.
-
-Figure 4. Sensitivity/robustness view.
-
-Figure 5. Export/reporting workflow view.
-
-Available local figure assets were detected and can be mapped to Figure 1-5 during final submission.
-
-### Submission figure files (separate, 300 DPI; screenshots only)
-- `figures/figure01_overview_fullpage.tiff` and `figures/figure01_overview_fullpage.eps`
-- `figures/figure02_model_fullpage.tiff` and `figures/figure02_model_fullpage.eps`
-- `figures/figure03_results_fullpage.tiff` and `figures/figure03_results_fullpage.eps`
-- `figures/figure04_bias_fullpage.tiff` and `figures/figure04_bias_fullpage.eps`
-- `figures/figure05_report_fullpage.tiff` and `figures/figure05_report_fullpage.eps`
-
-### Table 3. Reproducibility and submission readiness map
-| Item | Local artifact | Current status | Action before external submission |
-|---|---|---|---|
-| Example walkthrough dataset | `SYNTHESIS_Transparency_Table.csv` | Present | Verify rerun on clean machine |
-| Validation summary | `f1000_artifacts/validation_summary.md` | Present | Confirm numbers and paths |
-| User walkthrough | `f1000_artifacts/tutorial_walkthrough.md` | Present | Align screenshots/captions |
-| Repository metadata | `[TO_BE_ADDED_GITHUB_OR_GITLAB_URL]` | Placeholder | Replace after final tagging |
-| DOI metadata | `[TO_BE_ADDED_ZENODO_DOI]` | Placeholder | Replace after Zenodo archive creation |
-
-## Software availability
+## Software Availability
 - Local source package: `FATIHA_Project` under `C:\Models`.
-- Public repository (placeholder): `[TO_BE_ADDED_GITHUB_OR_GITLAB_URL]`
-- Zenodo DOI (placeholder): `[TO_BE_ADDED_ZENODO_DOI]`
-- Version: development build (version label to be finalized)
-- Reproducibility walkthrough: `f1000_artifacts/tutorial_walkthrough.md`
-- Validation summary: `f1000_artifacts/validation_summary.md`
-- License: see package `LICENSE` file.
-- Note: repository and DOI placeholders are intentionally retained until release archival is finalized.
-## Data availability
-No new participant-level clinical data were generated for this software article package. Example dataset for reviewer walkthrough: `SYNTHESIS_Transparency_Table.csv`. Additional project data assets, where present, remain available within the local package tree.
-## Reporting guidelines
-Real-peer-review-aligned checklist included: `F1000_Submission_Checklist_RealReview.md`.
+- Public repository: `https://github.com/mahmood726-cyber/fatiha`.
+- Public source snapshot: Fixed public commit snapshot available at `https://github.com/mahmood726-cyber/fatiha/tree/f341e937b88b612ce55542ef97aa240788cc9690`.
+- DOI/archive record: No project-specific DOI or Zenodo record URL was detected locally; archive registration pending.
+- Environment capture detected locally: `renv.lock`, `Dockerfile`.
+- Reviewer-facing documentation detected locally: `README.md`, `f1000_artifacts/tutorial_walkthrough.md`, `vignettes/SYNTHESIS_Walkthrough.Rmd`.
+- Reproducibility walkthrough: `f1000_artifacts/tutorial_walkthrough.md` where present.
+- Validation summary: `f1000_artifacts/validation_summary.md` where present.
+- Reviewer rerun manifest: `F1000_Reviewer_Rerun_Manifest.md`.
+- Multi-persona review memo: `F1000_MultiPersona_Review.md`.
+- Concrete submission-fix note: `F1000_Concrete_Submission_Fixes.md`.
+- License: see the local `LICENSE` file.
+
+## Data Availability
+The package distributes code, simulations, and non-patient example materials locally. No new participant-level clinical data are included in the F1000 manuscript bundle.
+
+## Reporting Checklist
+Real-peer-review-aligned checklist: `F1000_Submission_Checklist_RealReview.md`.
+Reviewer rerun companion: `F1000_Reviewer_Rerun_Manifest.md`.
+Companion reviewer-response artifact: `F1000_MultiPersona_Review.md`.
+Project-level concrete fix list: `F1000_Concrete_Submission_Fixes.md`.
 
 ## Declarations
 ### Competing interests
-The author declares that no competing interests were disclosed.
+The authors declare that no competing interests were disclosed.
 
 ### Grant information
 No specific grant was declared for this manuscript draft.
@@ -269,11 +138,11 @@ No specific grant was declared for this manuscript draft.
 | Andrew Woo | Conceptualization |
 
 ### Acknowledgements
-The author acknowledges contributors to open statistical methods and reproducible software engineering practices.
+The authors acknowledge contributors to open statistical methods, reproducible research software, and reviewer-led software quality improvement.
 
 ## References
 1. DerSimonian R, Laird N. Meta-analysis in clinical trials. Controlled Clinical Trials. 1986;7(3):177-188.
 2. Higgins JPT, Thompson SG. Quantifying heterogeneity in a meta-analysis. Statistics in Medicine. 2002;21(11):1539-1558.
-3. Page MJ, McKenzie JE, Bossuyt PM, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71.
-4. Guyatt GH, Oxman AD, Vist GE, et al. GRADE: an emerging consensus on rating quality of evidence and strength of recommendations. BMJ. 2008;336(7650):924-926.
+3. Viechtbauer W. Conducting meta-analyses in R with the metafor package. Journal of Statistical Software. 2010;36(3):1-48.
+4. Page MJ, McKenzie JE, Bossuyt PM, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71.
 5. Fay C, Rochette S, Guyader V, Girard C. Engineering Production-Grade Shiny Apps. Chapman and Hall/CRC. 2022.
