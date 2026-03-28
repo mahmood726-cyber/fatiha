@@ -1,10 +1,12 @@
 # SYNTHESIS: A 7-Layer Verification Framework for Detecting Fragile Meta-Analyses
 
-**Mahmood Ahmad**
+**Mahmood Ahmad**^1^
 
-Independent Researcher
+^1^ Royal Free Hospital, London, United Kingdom
 
 Corresponding author: mahmood.ahmad2@nhs.net
+
+ORCID: 0009-0003-7781-4478
 
 ---
 
