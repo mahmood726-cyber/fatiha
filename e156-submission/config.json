@@ -3,7 +3,7 @@
   "slug": "synthesis-verification-framework",
   "author": "Mahmood Ahmad",
   "date": "2026-03-26",
-  "path": "C:\\Models\\FATIHA_Project",
+  "path": "..",
   "type": "methods",
   "primary_estimand": "Coverage probability",
   "summary": "A 7-layer meta-analysis verification framework with Triple-Guard fail-safe ensemble, evaluated against 426 Cochrane reviews and six simulation scenarios.",

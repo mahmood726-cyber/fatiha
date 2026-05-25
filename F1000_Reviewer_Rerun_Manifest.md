@@ -3,7 +3,7 @@
 This manifest is the shortest reviewer-facing rerun path for the local software package. It lists the files that should be sufficient to recreate one worked example, inspect saved outputs, and verify that the manuscript claims remain bounded to what the repository actually demonstrates.
 
 ## Reviewer Entry Points
-- Project directory: `C:\Models\FATIHA_Project`.
+- Project directory: repository root.
 - Preferred documentation start points: `README.md`, `f1000_artifacts/tutorial_walkthrough.md`, `vignettes/SYNTHESIS_Walkthrough.Rmd`.
 - Detected public repository root: `https://github.com/mahmood726-cyber/fatiha`.
 - Detected public source snapshot: Fixed public commit snapshot available at `https://github.com/mahmood726-cyber/fatiha/tree/f341e937b88b612ce55542ef97aa240788cc9690`.

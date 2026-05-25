@@ -38,9 +38,9 @@ The manuscript structure below is deliberately aligned to common open-software r
 The codebase includes an R package, Shiny launch entry point, Dockerfile, vignettes, tests, and documentation for design decisions. The visible software behavior is organized around the audit object returned by `synthesis_audit()` and the interactive dashboard launched by `launch_synthesis_app()`.
 
 ### Installation, runtime, and reviewer reruns
-The local implementation is packaged under `C:\Models\FATIHA_Project`. The manuscript identifies the local entry points, dependency manifest, fixed example input, and expected saved outputs so that reviewers can rerun the documented workflow without reconstructing it from scratch.
+The local implementation is packaged in the repository root. The manuscript identifies the local entry points, dependency manifest, fixed example input, and expected saved outputs so that reviewers can rerun the documented workflow without reconstructing it from scratch.
 
-- Entry directory: `C:\Models\FATIHA_Project`.
+- Entry directory: repository root.
 - Detected documentation entry points: `README.md`, `f1000_artifacts/tutorial_walkthrough.md`, `vignettes/SYNTHESIS_Walkthrough.Rmd`.
 - Detected environment capture or packaging files: `renv.lock`, `Dockerfile`.
 - Named worked-example paths in this draft: `vignettes/SYNTHESIS_Walkthrough.Rmd` for a runnable package walk-through; `simulation_results.csv` and `Performance_Summary.png` for the packaged stress-test outputs; `demo/` and `inst/` resources for package examples and user materials.
@@ -99,7 +99,7 @@ Because the method vocabulary is ambitious, the F1000 paper needs to state clear
 - External, independently curated benchmark validation remains desirable before stronger claims are made.
 
 ## Software Availability
-- Local source package: `FATIHA_Project` under `C:\Models`.
+- Local source package: `FATIHA_Project` in this repository.
 - Public repository: `https://github.com/mahmood726-cyber/fatiha`.
 - Public source snapshot: Fixed public commit snapshot available at `https://github.com/mahmood726-cyber/fatiha/tree/f341e937b88b612ce55542ef97aa240788cc9690`.
 - DOI/archive record: No project-specific DOI or Zenodo record URL was detected locally; archive registration pending.
