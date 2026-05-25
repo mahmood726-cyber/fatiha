@@ -1,5 +1,7 @@
 # SYNTHESIS: The Evidence Verification System
 
+[![codeql](https://github.com/mahmood726-cyber/fatiha/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/mahmood726-cyber/fatiha/actions/workflows/codeql.yml) [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 ## Installation
 Use the dependency files in this directory (for example `requirements.txt`, `environment.yml`, `DESCRIPTION`, or equivalent project-specific files) to create a clean local environment before running analyses.
 Document any package-version mismatch encountered during first run.
