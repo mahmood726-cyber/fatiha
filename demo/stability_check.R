@@ -1,34 +1,53 @@
 #' VALIDATION: SYNTHESIS Stability & Overfitting Protection
-library(metafor)
-source("C:/Models/FATIHA_Project/R/synthesis.R")
 
-# 1. Create a "Fragile" Dataset (Small k, one high-leverage study)
+bootstrap_project_paths <- function() {
+  args <- commandArgs(trailingOnly = FALSE)
+  file_arg <- grep("^--file=", args, value = TRUE)
+  candidates <- c(
+    file.path(getwd(), "R", "project_paths.R"),
+    file.path(getwd(), "..", "R", "project_paths.R"),
+    file.path(getwd(), "..", "..", "R", "project_paths.R")
+  )
+  if (length(file_arg) > 0) {
+    script_dir <- dirname(sub("^--file=", "", file_arg[[1]]))
+    candidates <- c(
+      file.path(script_dir, "..", "R", "project_paths.R"),
+      file.path(script_dir, "..", "..", "R", "project_paths.R"),
+      candidates
+    )
+  }
+  for (candidate in unique(candidates)) {
+    if (file.exists(candidate)) {
+      source(normalizePath(candidate, winslash = "/", mustWork = TRUE), local = parent.frame())
+      return(invisible(NULL))
+    }
+  }
+  stop("Unable to locate R/project_paths.R")
+}
+
+bootstrap_project_paths()
+PROJECT_ROOT <- resolve_project_root()
+
+library(metafor)
+source(file.path(PROJECT_ROOT, "R", "synthesis.R"))
+
 set.seed(99)
 k <- 8
 yi <- rnorm(k, 0.3, 0.1)
 vi <- runif(k, 0.01, 0.05)
-# Study 8 is a massive outlier that would cause overfitting
-yi[8] <- 2.5; vi[8] <- 0.001
+yi[8] <- 2.5
+vi[8] <- 0.001
 
-# 2. Run Core Analysis
 res <- synthesis_meta(yi, vi)
 print(res)
 
-# 3. Run Stability Assessment (The Reliability Shield)
 stab <- synthesis_stability(yi, vi)
 print(stab)
 
-cat("
---- Leverage Analysis ---
-")
-cat("Leverage per Study (How much removing it shifts the model):
-")
+cat("\n--- Leverage Analysis ---\n")
+cat("Leverage per Study (How much removing it shifts the model):\n")
 print(round(stab$leverage_indices, 3))
 
 if (which.max(stab$leverage_indices) == 8) {
-    cat("
-SUCCESS: The stability module correctly identified Study 8 as the primary source of instability.
-")
+  cat("\nSUCCESS: The stability module correctly identified Study 8 as the primary source of instability.\n")
 }
-
-
