@@ -10,8 +10,14 @@ DOC_PATHS = [
     REPO_ROOT / "F1000_Submission_Checklist_RealReview.md",
 ]
 SCRIPT_PATHS = [
+    REPO_ROOT / "R" / "project_paths.R",
+    REPO_ROOT / "demo" / "simulation_study.R",
+    REPO_ROOT / "demo" / "pairwise70_benchmark.R",
+    REPO_ROOT / "demo" / "generate_report.R",
+    REPO_ROOT / "demo" / "publication_check.R",
     REPO_ROOT / "demo" / "validation.R",
     REPO_ROOT / "demo" / "real_data_validation.R",
+    REPO_ROOT / "paper" / "figures" / "generate_figures.R",
 ]
 
 
