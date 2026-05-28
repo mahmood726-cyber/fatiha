@@ -1,3 +1,7 @@
+# sentinel:skip-file — this portability-contract test asserts that specific
+# absolute paths are ABSENT from the validation scripts. The literal
+# C:\Users\... / C:\Models\... strings here are negative-assertion fixtures,
+# not hardcoded paths in shipped code.
 import json
 from pathlib import Path
 
