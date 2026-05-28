@@ -9,6 +9,10 @@ DOC_PATHS = [
     REPO_ROOT / "F1000_Reviewer_Rerun_Manifest.md",
     REPO_ROOT / "F1000_Submission_Checklist_RealReview.md",
 ]
+SCRIPT_PATHS = [
+    REPO_ROOT / "demo" / "validation.R",
+    REPO_ROOT / "demo" / "real_data_validation.R",
+]
 
 
 def test_submission_config_uses_repo_relative_root():
@@ -23,3 +27,12 @@ def test_reviewer_docs_do_not_reference_stale_local_windows_paths():
         text = path.read_text(encoding="utf-8")
         assert r"C:\Models\FATIHA_Project" not in text, path
         assert r"C:\HTML apps\reviewer Report.txt" not in text, path
+
+
+def test_validation_scripts_use_repo_local_and_env_driven_paths():
+    for path in SCRIPT_PATHS:
+        text = path.read_text(encoding="utf-8")
+        assert r"C:\Models\FATIHA_Project" not in text, path
+        assert "C:/Models/FATIHA_Project" not in text, path
+        assert r"C:\Users\user\OneDrive - NHS\Documents\Pairwise70\data" not in text, path
+        assert "C:/Users/user/OneDrive - NHS/Documents/Pairwise70/data" not in text, path
